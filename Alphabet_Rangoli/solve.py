@@ -22,4 +22,4 @@ def print_rangoli(size):
         print('-'.join(row))
 
 if __name__ == '__main__':
-    print_rangoli(30)
+    print_rangoli(5)
