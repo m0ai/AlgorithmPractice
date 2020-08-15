@@ -4,7 +4,7 @@ import unittest
 
 
 def is_valid_skill_tree(valid_skill: str, user_skill_tree: str) -> bool:
-    return valid_skill.startswith(''.join(list(dict.fromkeys(filter(lambda x: x in valid_skill, user_skill_tree)))))
+    return valid_skill.startswith(''.join(filter(lambda x: x in valid_skill, user_skill_tree)))
 
 
 def solution(skill:str , skill_trees: List[str]) -> int:
