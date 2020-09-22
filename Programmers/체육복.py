@@ -1,64 +1,39 @@
-from typing import List
+# https://programmers.co.kr/learn/courses/30/lessons/42862
 
-def can_i_borrow_your_uniform(lost: int, reserve: List[int]) -> bool:
-    if lost-1 in reserve:
-        reserve.remove(lost-1)
-        return True
-    elif lost+1 in reserve:
-        reserve.remove(lost+1)
-        return True
+def solution(n, lost, reserve) -> int:
+    count = 0
+    lost_set = set(lost) - set(reserve)
+    reserve_set = set(reserve) - set(lost)
 
-    return False
+    for i in lost_set:
+        if (left :=  i-1) in reserve_set:
+            reserve_set.remove(left)
+            continue
+        elif (right := i+1)  in reserve_set:
+            reserve_set.remove(right)
+            continue
 
+        count += 1
 
-def solution(n, lost, reserve):
-    answer = n - len(lost)
-
-    for l in sorted(lost):
-        if l in reserve:
-            lost.remove(l)
-            reserve.remove(l)
-            answer += 1
-
-    for l in sorted(lost):
-        if l-1 in reserve:
-            answer += 1
-            reserve.remove(l-1)
-        elif l+1 in reserve:
-            answer += 1
-            reserve.remove(l+1)
-
-    return answer
+    return n - count
 
 
-print(
-    solution(5, [2,4], [1,3,5]) == 5
-)
+import unittest
 
-print(
-    solution(5, [2,4], [3]) == 4
-)
+class TestStringMethods(unittest.TestCase):
 
-print(
-    solution(3, [3], [1]) == 2
-)
+    def test_basic_case(self):
+        self.assertEqual(solution(5, [2,4], [1,3,5]), 5)
+        self.assertEqual(solution(5, [2,4], [3]), 4)
 
-print(
-    solution(5, [2,4], [1,3,5]) == 5
-)
+    def test_complex_case(self):
+        self.assertEqual(solution(3, [3], [1]), 2)
+        self.assertEqual(solution(5, [2,4], [1,3,5]), 5)
+        self.assertEqual(solution(5, [2,4], [3]), 4)
+        self.assertEqual(solution(5, [2,3,4], [1,2,4,5]), 4)
+        self.assertEqual(solution(5, [2,3], [3,4]), 4)
+        self.assertEqual(solution(5, [1,2,3,4,5], [1,2,3,4,5]), 5)
 
-print(
-    solution(5, [2,4], [3]) == 4
-)
 
-print(
-    solution(5, [2,3,4], [1,2,4,5]) == 4
-)
-
-print(
-    solution(5, [2,3], [3,4]) == 4
-)
-
-print(
-    solution(5, [1,2,3,4,5], [1,2,3,4,5]) == 5
-)
+if __name__ == '__main__':
+    unittest.main()
